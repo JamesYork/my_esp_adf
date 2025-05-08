@@ -29,11 +29,22 @@
 #include "es8311.h"
 #include "audio_volume.h"
 
-/* ES8311 address
- * 0x32:CE=1;0x30:CE=0
- */
-#define ES8311_ADDR         0x30
+#if SHI_ZHAN_PAI_S3                     // define at board_def.h
+    #define ES8311_ADDR         0x18
+    #define PCA9557_ADDR        0x19
 
+    // 寄存器地址：PCA9557
+    #define PCA9557_IN_REG      0x00
+    #define PCA9557_OUT_REG     0x01
+    #define PCA9557_DIR_REG     0x03
+    // as output in dir_reg
+    #define DIR_OUTPUT          0x00
+#else
+    /* ES8311 address
+    * 0x32:CE=1;0x30:CE=0
+    */
+    #define ES8311_ADDR         0x30
+#endif
 /*
  * to define the clock soure of MCLK
  */
@@ -211,6 +222,13 @@ static char *TAG = "DRV8311";
     }
 
 int8_t get_es8311_mclk_src(void);
+
+#if SHI_ZHAN_PAI_S3
+    static esp_err_t pca9557_write_reg(uint8_t reg_addr, uint8_t data)
+    {
+        return i2c_bus_write_bytes(i2c_handle, PCA9557_ADDR, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
+    }
+#endif
 
 static esp_err_t es8311_write_reg(uint8_t reg_addr, uint8_t data)
 {
@@ -491,6 +509,12 @@ esp_err_t es8311_codec_init(audio_hal_codec_config_t *codec_cfg)
     ret |= es8311_write_reg(ES8311_ADC_REG1C, 0x6A);
     AUDIO_RET_ON_FALSE(TAG, ret, return ret, "es8311 initialize failed");
 
+#if SHI_ZHAN_PAI_S3
+    //ESP_LOGI(TAG, "[ **@** ] PCA9557 Operation at ES8311");
+    ret |= pca9557_write_reg(PCA9557_DIR_REG, DIR_OUTPUT);
+    ret |= pca9557_write_reg(PCA9557_OUT_REG, 0x02);
+    AUDIO_RET_ON_FALSE(TAG, ret, return ret, "pca9557 initialize failed");
+#else
     /* pa power gpio init */
     gpio_config_t  io_conf;
     memset(&io_conf, 0, sizeof(io_conf));
@@ -501,6 +525,7 @@ esp_err_t es8311_codec_init(audio_hal_codec_config_t *codec_cfg)
     gpio_config(&io_conf);
     /* enable pa power */
     es8311_pa_power(true);
+#endif
 
     codec_dac_volume_config_t vol_cfg = ES8311_DAC_VOL_CFG_DEFAULT();
     dac_vol_handle = audio_codec_volume_init(&vol_cfg);

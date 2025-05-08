@@ -89,7 +89,13 @@ static i2c_master_dev_handle_t add_i2c_device(i2c_bus_info_t* bus, uint16_t addr
     I2C_BUS_CHECK(dev_info, "Insufficient memory", NULL);
     i2c_device_config_t cfg = {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
-        .device_address = addr >> 1,
+
+        #if CONFIG_ESP32_S3_LCKFB_BOARD     // 立创S3开发板
+            .device_address = addr,
+        #else
+            .device_address = addr >> 1,
+        #endif
+
         .scl_speed_hz = bus->clk,
     };
     esp_err_t ret = i2c_master_bus_add_device(master[bus->port].master_handle, &cfg, &dev_info->dev_handle);

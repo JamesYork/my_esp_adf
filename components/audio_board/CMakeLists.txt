@@ -79,6 +79,15 @@ set(COMPONENT_SRCS
 )
 endif()
 
+if (CONFIG_ESP32_S3_LCKFB_BOARD)
+message(STATUS "Current board name is " CONFIG_ESP32_S3_LCKFB_BOARD)
+list(APPEND COMPONENT_ADD_INCLUDEDIRS ./esp32_s3_lckfb)
+set(COMPONENT_SRCS
+./esp32_s3_lckfb/board.c
+./esp32_s3_lckfb/board_pins_config.c
+)
+endif()
+
 if (CONFIG_ESP32_S3_KORVO2L_V1_BOARD)
 message(STATUS "Current board name is " CONFIG_ESP32_S3_KORVO2L_V1_BOARD)
 list(APPEND COMPONENT_ADD_INCLUDEDIRS ./esp32_s3_korvo2l_v1)

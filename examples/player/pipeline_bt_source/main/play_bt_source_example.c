@@ -32,7 +32,7 @@
 #include "tcpip_adapter.h"
 #endif
 
-static const char *TAG = "BLUETOOTH_SOURCE_EXAMPLE";
+static const char *TAG = "WIFI_BT_SRC_MP3";
 
 void app_main(void)
 {

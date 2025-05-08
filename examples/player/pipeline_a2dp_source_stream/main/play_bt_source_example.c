@@ -27,7 +27,8 @@
 
 typedef uint8_t esp_peer_bdname_t[ESP_BT_GAP_MAX_BDNAME_LEN + 1];
 
-static const char *TAG = "BLUETOOTH_SOURCE_EXAMPLE";
+static const char *TAG = "BT_SRC_MP3";
+
 static esp_peer_bdname_t remote_bt_device_name;
 static bool device_found = false;
 static esp_bd_addr_t remote_bd_addr = {0};

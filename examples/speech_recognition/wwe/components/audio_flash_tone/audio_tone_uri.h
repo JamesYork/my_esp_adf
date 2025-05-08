@@ -1,14 +1,12 @@
-#ifndef __AUDIO_TONEURI_H__
-#define __AUDIO_TONEURI_H__
+/*This is tone file*/
 
-extern const char* tone_uri[];
-
-typedef enum {
-    TONE_TYPE_DINGDONG,
-    TONE_TYPE_HAODE,
-    TONE_TYPE_MAX,
-} tone_type_t;
-
-int get_tone_uri_num();
-
-#endif
+const char* tone_uri[] = {
+    "flash://tone/0_dingdong.mp3",
+    "flash://tone/1_haode.mp3",
+ };
+ 
+ int get_tone_uri_num()
+ {
+     return sizeof(tone_uri) / sizeof(char *) - 1;
+ }
+ 

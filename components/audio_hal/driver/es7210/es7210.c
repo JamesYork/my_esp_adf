@@ -28,8 +28,12 @@
 #include "i2c_bus.h"
 #include "es7210.h"
 
-/* ES7210 address */
-#define ES7210_ADDR (ES7210_AD1_AD0_00)
+#if SHI_ZHAN_PAI_S3
+    #define ES7210_ADDR     0x41
+#else
+    /* ES7210 address */
+    #define ES7210_ADDR (ES7210_AD1_AD0_00)
+#endif
 
 #define I2S_DSP_MODE          (0)
 #define MCLK_DIV_FRE          (256)

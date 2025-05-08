@@ -2,7 +2,7 @@ menu "Audio HAL"
 
 choice AUDIO_BOARD
     prompt "Audio board"
-    default ESP_LYRAT_V4_3_BOARD
+    default ESP32_S3_LCKFB_BOARD
     help
         Select an audio board to use with the ESP-ADF
 config AUDIO_BOARD_CUSTOM
@@ -23,6 +23,8 @@ config ESP32_S2_KALUGA_1_V1_2_BOARD
     bool "ESP32-S2-Kaluga-1 v1.2"
 config ESP32_S3_KORVO2_V3_BOARD
     bool "ESP32-S3-Korvo-2 v3"
+config ESP32_S3_LCKFB_BOARD
+    bool "立创S3实战派开发板"
 config ESP32_S3_KORVO2L_V1_BOARD
     bool "ESP32-S3-Korvo-2L v1"
 config ESP32_S3_BOX_LITE_BOARD
